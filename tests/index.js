@@ -22,13 +22,13 @@ function getCleanTestObject(){
 
 resetMocks();
 
-test('Ceeline is a function', function (t) {
+test('SeaLion is a function', function (t) {
     t.plan(1);
-    var Ceeline = getCleanTestObject();
-    t.equal(typeof Ceeline, 'function',  'Ceeline is a function');
+    var SeaLion = getCleanTestObject();
+    t.equal(typeof SeaLion, 'function',  'SeaLion is a function');
 });
 
-test('new ceeline has default routes', function (t) {
+test('new seaLion has default routes', function (t) {
     t.plan(6);
 
     var expectedRoutes = {
@@ -46,14 +46,14 @@ test('new ceeline has default routes', function (t) {
         this.testValue = testValue;
     });
 
-    var Ceeline = getCleanTestObject(),
-        ceeline = new Ceeline();
+    var SeaLion = getCleanTestObject(),
+        seaLion = new SeaLion();
 
-    t.ok(ceeline.routes, 'routes exists');
-    t.equal(ceeline.routes.testValue, testValue, 'routes was set correctly');
+    t.ok(seaLion.routes, 'routes exists');
+    t.equal(seaLion.routes.testValue, testValue, 'routes was set correctly');
 });
 
-test('new ceeline overides routes', function (t) {
+test('new seaLion overides routes', function (t) {
     t.plan(5);
 
     var expectedRoutes = {
@@ -73,21 +73,21 @@ test('new ceeline overides routes', function (t) {
         this.testValue = testValue;
     });
 
-    var Ceeline = getCleanTestObject();
+    var SeaLion = getCleanTestObject();
 
-    new Ceeline({
+    new SeaLion({
         '`404`': null,
         'foo bar': 'stuff'
     });
 });
 
-test('new ceeline has a router function', function (t) {
+test('new seaLion has a router function', function (t) {
     t.plan(1);
 
-    var Ceeline = getCleanTestObject(),
-        ceeline = new Ceeline();
+    var SeaLion = getCleanTestObject(),
+        seaLion = new SeaLion();
 
-    t.equal(typeof ceeline.router, 'function', 'router is a function');
+    t.equal(typeof seaLion.router, 'function', 'router is a function');
 });
 
 require('./routes');

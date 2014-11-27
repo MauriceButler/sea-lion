@@ -2,7 +2,7 @@ var aquaduck = require('aquaduck'),
     fileServer = require('file-server'),
     Routes = require('./routes');
 
-function CeeLine(customRoutes){
+function SeaLion(customRoutes){
     var defaultRoutes = {
         '`404`': function(){},
         '`405`': function(){},
@@ -18,9 +18,9 @@ function CeeLine(customRoutes){
     this.routes = new Routes(defaultRoutes);
 }
 
-CeeLine.prototype.router = function(request, response){
+SeaLion.prototype.router = function(request, response){
 
 };
 
-module.exports = CeeLine;
+module.exports = SeaLion;
 
