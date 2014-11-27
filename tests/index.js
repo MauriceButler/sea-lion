@@ -13,7 +13,7 @@ function resetMocks(){
 
 function getCleanTestObject(){
     delete require.cache[require.resolve(pathToObjectUnderTest)];
-    fraudster.enable({ useCleanCache: true, warnOnReplace: false });
+    fraudster.enable();
     var objectUnderTest = require(pathToObjectUnderTest);
     fraudster.disable();
     resetMocks();

@@ -23,7 +23,7 @@
     "merge": "^1.2.0"
   },
   "devDependencies": {
-    "fraudster": "0.0.2",
+    "fraudster": "^1.0.0",
     "tape": "^3.0.3"
   }
 }
