@@ -1,5 +1,5 @@
 {
-  "name": "ceeline",
+  "name": "sea-lion",
   "version": "0.0.1",
   "description": "Simple node http router",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MauriceButler/ceeline.git"
+    "url": "https://github.com/MauriceButler/sea-lion.git"
   },
   "keywords": [],
   "author": "Maurice Butler <maurice.butler@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MauriceButler/ceeline/issues"
+    "url": "https://github.com/MauriceButler/sea-lion/issues"
   },
-  "homepage": "https://github.com/MauriceButler/ceeline",
+  "homepage": "https://github.com/MauriceButler/sea-lion",
   "dependencies": {
     "aquaduck": "0.0.4",
     "file-server": "0.0.1",
