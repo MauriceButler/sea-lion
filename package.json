@@ -19,6 +19,11 @@
   "homepage": "https://github.com/MauriceButler/ceeline",
   "dependencies": {
     "aquaduck": "0.0.4",
-    "file-server": "0.0.1"
+    "file-server": "0.0.1",
+    "merge": "^1.2.0"
+  },
+  "devDependencies": {
+    "fraudster": "0.0.2",
+    "tape": "^3.0.3"
   }
 }
