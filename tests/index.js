@@ -6,28 +6,10 @@ test('SeaLion is a function', function (t) {
     t.equal(typeof SeaLion, 'function',  'SeaLion is a function');
 });
 
-test('new seaLion has default routes', function (t) {
+test('new seaLion takes routes', function (t) {
     t.plan(2);
 
     var expectedRoutes = {
-            '`404`': function(){},
-            '`405`': function(){},
-            '`500`': function(){}
-        };
-
-    var seaLion = new SeaLion();
-
-    t.ok(seaLion._routes, 'routes exists');
-    t.deepEqual(Object.keys(seaLion._routes), Object.keys(expectedRoutes), 'routes was set correctly');
-});
-
-test('new seaLion overides routes', function (t) {
-    t.plan(4);
-
-    var expectedRoutes = {
-            '`404`': null,
-            '`405`': function(){},
-            '`500`': function(){},
             '/foo': function(){}
         };
 
@@ -36,8 +18,6 @@ test('new seaLion overides routes', function (t) {
     });
 
     t.deepEqual(Object.keys(seaLion._routes), Object.keys(expectedRoutes), 'got expected routes');
-    t.equal(typeof seaLion._routes['`405`'], typeof expectedRoutes['`405`'], '405 route is correct');
-    t.equal(typeof seaLion._routes['`500`'], typeof expectedRoutes['`500`'], '500 route is correct');
     t.equal(seaLion._routes['/foo'], expectedRoutes['/foo'], '/foo route is correct');
 });
 
@@ -59,28 +39,20 @@ test('add routes using seaLion.add', function (t) {
             foo: 'bar',
             stuff: 'meh'
         },
-        defaultRoutes = {
-            '`404`': null,
-            '`405`': function(){},
-            '`500`': function(){}
-        }
         expectedRoutes = {
-            '`404`': null,
-            '`405`': function(){},
-            '`500`': function(){},
             foo: 'bar',
             stuff: 'meh'
         },
         seaLion = new SeaLion();
 
-    t.deepEqual(Object.keys(seaLion._routes), Object.keys(defaultRoutes),  'routes has correct keys to start');
+    t.deepEqual(Object.keys(seaLion._routes), [],  'routes has no keys to start');
 
     seaLion.add(testRoutes);
 
     t.deepEqual(Object.keys(seaLion._routes), Object.keys(expectedRoutes),  'routes has correct keys after add');
 });
 
-test.only('matched route gets handled', function (t) {
+test('matched route gets handled', function (t) {
     t.plan(1);
 
     var seaLion = new SeaLion({
@@ -95,4 +67,52 @@ test.only('matched route gets handled', function (t) {
 
 });
 
+test('matched route gets handled', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/foo/new': function(request, response){
+            t.pass();
+        },
+        '/foo/`id`': function(request, response){
+            t.fail();
+        }
+    });
+
+    seaLion.handle({
+        url:'/foo/new'
+    });
+});
+
+test('matched route gets handled', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/foo/`id`': function(request, response, tokens){
+            t.equal(tokens.id, 'new');
+        }
+    });
+
+    seaLion.handle({
+        url:'/foo/new'
+    });
+});
+
+test('matched route gets handled', function (t) {
+    t.plan(3);
+
+    var seaLion = new SeaLion({
+        '/foo/`1`/`2`/`3`': function(request, response, tokens){
+            t.equal(tokens[1], 'a');
+            t.equal(tokens[2], 'b');
+            t.equal(tokens[3], 'c');
+        }
+    });
+
+    seaLion.handle({
+        url:'/foo/a/b/c'
+    });
+});
+
 require('./matchRule');
+require('./matchRuleKeys');
