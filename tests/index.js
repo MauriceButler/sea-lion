@@ -68,7 +68,7 @@ test('matched route gets handled', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo'));
+    seaLion.createHandler()(fakeRequest('/foo'));
 
 });
 
@@ -84,7 +84,7 @@ test('matched route gets handled', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo/new'));
+    seaLion.createHandler()(fakeRequest('/foo/new'));
 });
 
 test('matched route gets handled', function (t) {
@@ -96,7 +96,7 @@ test('matched route gets handled', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo/new'));
+    seaLion.createHandler()(fakeRequest('/foo/new'));
 });
 
 test('matched route gets handled', function (t) {
@@ -110,7 +110,7 @@ test('matched route gets handled', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo/a/b/c'));
+    seaLion.createHandler()(fakeRequest('/foo/a/b/c'));
 });
 
 test('multi-rule route is matched', function (t) {
@@ -125,9 +125,9 @@ test('multi-rule route is matched', function (t) {
         t.equal(request.url, '/baz');
     };
 
-    seaLion.handle(fakeRequest('/foo'));
-    seaLion.handle(fakeRequest('/bar'));
-    seaLion.handle(fakeRequest('/baz'));
+    seaLion.createHandler()(fakeRequest('/foo'));
+    seaLion.createHandler()(fakeRequest('/bar'));
+    seaLion.createHandler()(fakeRequest('/baz'));
 });
 
 test('multi-rule route with tokens is matched', function (t) {
@@ -144,8 +144,8 @@ test('multi-rule route with tokens is matched', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo/bar'));
-    seaLion.handle(fakeRequest('/bar'));
+    seaLion.createHandler()(fakeRequest('/foo/bar'));
+    seaLion.createHandler()(fakeRequest('/bar'));
 });
 
 test('matching stops on slashes', function (t) {
@@ -160,7 +160,7 @@ test('matching stops on slashes', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo/bar/bar'));
+    seaLion.createHandler()(fakeRequest('/foo/bar/bar'));
 });
 
 test('get rest of path', function (t) {
@@ -175,8 +175,8 @@ test('get rest of path', function (t) {
         t.fail();
     };
 
-    seaLion.handle(fakeRequest('/foo/thing/bar.svg'));
-    seaLion.handle(fakeRequest('/foo/thing/bar.png'));
+    seaLion.createHandler()(fakeRequest('/foo/thing/bar.svg'));
+    seaLion.createHandler()(fakeRequest('/foo/thing/bar.png'));
 });
 
 test('get lots of path', function (t) {
@@ -191,8 +191,8 @@ test('get lots of path', function (t) {
         t.pass('route didn\'t match .png');
     };
 
-    seaLion.handle(fakeRequest('/foo/thing/bar.svg'));
-    seaLion.handle(fakeRequest('/foo/thing/bar.png'));
+    seaLion.createHandler()(fakeRequest('/foo/thing/bar.svg'));
+    seaLion.createHandler()(fakeRequest('/foo/thing/bar.png'));
 });
 
 test('method routing', function (t) {
@@ -209,7 +209,7 @@ test('method routing', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo', 'POST'));
+    seaLion.createHandler()(fakeRequest('/foo', 'POST'));
 });
 
 test('any method routing', function (t) {
@@ -226,7 +226,7 @@ test('any method routing', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo'));
+    seaLion.createHandler()(fakeRequest('/foo'));
 });
 
 test('any method routing to fn', function (t) {
@@ -238,7 +238,7 @@ test('any method routing to fn', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo', 'POST'));
+    seaLion.createHandler()(fakeRequest('/foo', 'POST'));
 });
 
 test('query strings', function (t) {
@@ -250,7 +250,7 @@ test('query strings', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/foo?bar=baz'));
+    seaLion.createHandler()(fakeRequest('/foo?bar=baz'));
 });
 
 test('query strings with rest token', function (t) {
@@ -262,7 +262,7 @@ test('query strings with rest token', function (t) {
         }
     });
 
-    seaLion.handle(fakeRequest('/bar?bar=baz'));
+    seaLion.createHandler()(fakeRequest('/bar?bar=baz'));
 });
 
 require('./matchRule');

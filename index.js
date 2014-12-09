@@ -38,26 +38,29 @@ SeaLion.prototype.match = function(pathname){
         }
     }
 };
-SeaLion.prototype.handle = function(request, response){
-    var pathname = url.parse(request.url).pathname,
-        match = this.match(pathname),
-        method = request.method.toLowerCase();
+SeaLion.prototype.createHandler = function(){
+    var seaLion = this;
+    return function(request, response){
+        var pathname = url.parse(request.url).pathname,
+            match = seaLion.match(pathname),
+            method = request.method.toLowerCase();
 
-    if(!match){
-        return this.notFound(request, response);
-    }
+        if(!match){
+            return seaLion.notFound(request, response);
+        }
 
-    var handler = this._routes[match.route];
+        var handler = seaLion._routes[match.route];
 
-    if(typeof handler !== 'function'){
-        handler = handler[method] || handler[method.toUpperCase()] || handler.any || this.methodNotAllowed;
-    }
+        if(typeof handler !== 'function'){
+            handler = handler[method] || handler[method.toUpperCase()] || handler.any || seaLion.methodNotAllowed;
+        }
 
-    try{
-        handler(request, response, match.tokens);
-    }catch(error){
-        this.error(request, response, error);
-    }
+        try{
+            handler(request, response, match.tokens);
+        }catch(error){
+            seaLion.error(request, response, error);
+        }
+    };
 };
 SeaLion.prototype.notFound = function(request, response) {
     var body = '404: The server has not found anything matching the Request-URI.';
