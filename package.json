@@ -17,12 +17,8 @@
     "url": "https://github.com/MauriceButler/sea-lion/issues"
   },
   "homepage": "https://github.com/MauriceButler/sea-lion",
-  "dependencies": {
-    "flat-merge": "^1.0.0",
-    "merge": "^1.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "fraudster": "^1.0.0",
     "tape": "^3.0.3"
   }
 }

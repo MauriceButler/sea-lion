@@ -1,6 +1,5 @@
 var parseRoute = require('./parseRoute'),
-    url = require('url'),
-    merge = require('flat-merge');
+    url = require('url');
 
 function addRoute(seaLion, route, handler){
     if(handler == null || typeof handler === 'object' && !~Object.keys(handler).length){
@@ -42,7 +41,7 @@ SeaLion.prototype.match = function(pathname){
 SeaLion.prototype.handle = function(request, response){
     var pathname = url.parse(request.url).pathname,
         match = this.match(pathname),
-        method = request.method;
+        method = request.method.toLowerCase();
 
     if(!match){
         return this.notFound(request, response);
@@ -51,7 +50,7 @@ SeaLion.prototype.handle = function(request, response){
     var handler = this._routes[match.route];
 
     if(typeof handler !== 'function'){
-        handler = handler[method] || handler.any || this.methodNotAllowed;
+        handler = handler[method] || handler[method.toUpperCase()] || handler.any || this.methodNotAllowed;
     }
 
     try{

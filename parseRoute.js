@@ -1,6 +1,6 @@
 var matchRule = require('./matchRule'),
     getRuleKeys = require('./getRuleKeys'),
-    sanitiseRegex = /[#-.\[\]-^?]/g,
+    sanitiseRegex = /[#\-\[\]^$*?+{}|]|\.(?!(?:\.)|`)/g,
     ruleKeys = /`((?:\\`|[^`])*)`/g;
 
 function sanitise(rule){
@@ -8,7 +8,12 @@ function sanitise(rule){
 }
 
 function createRuleRegex(rule){
-    return new RegExp('^' + sanitise(rule).replace(/`.*?`/g, '(.*?)') + '$');
+    return new RegExp(
+        '^' + 
+        sanitise(rule)
+        .replace(/`.*?\.\.\.`/g, '(.*?)')
+        .replace(/`.*?`/g, '([^/]*?)') + 
+        '$');
 }
 
 function matchUrl(pathname, ruleDefinition){
@@ -18,14 +23,10 @@ function matchUrl(pathname, ruleDefinition){
         return;
     }
 
-    var tokens;
+    var tokens = {};
 
-    if(ruleDefinition.keys.length){
-        tokens = {};
-
-        for(var i = 0; i < ruleDefinition.keys.length; i++){
-            tokens[ruleDefinition.keys[i]] = match[i+1];
-        }
+    for(var i = 0; i < ruleDefinition.keys.length; i++){
+        tokens[ruleDefinition.keys[i].replace(/\.\.\.$/, '')] = match[i+1];
     }
 
     return {
