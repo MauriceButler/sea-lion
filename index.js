@@ -83,7 +83,7 @@ SeaLion.prototype.error = function(request, response, error) {
 
     console.error('Error accessing: ' + request.method + ' ' + request.url, error.stack || error.message || error);
 
-    var body = 
+    var body =
         'An exception was thrown while accessing: ' + request.method + ' ' + request.url + '\n' +
         'Exception: ' + (error.message || error);
 

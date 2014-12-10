@@ -1,7 +1,6 @@
 var matchRule = require('./matchRule'),
     getRuleKeys = require('./getRuleKeys'),
-    sanitiseRegex = /[#\-\[\]^$*?+{}|]|\.(?!(?:\.)|`)/g,
-    ruleKeys = /`((?:\\`|[^`])*)`/g;
+    sanitiseRegex = /[#\-\[\]^$*?+{}|]|\.(?!(?:\.)|`)/g;
 
 function sanitise(rule){
     return rule.replace(sanitiseRegex, '\\$&');
@@ -9,10 +8,10 @@ function sanitise(rule){
 
 function createRuleRegex(rule){
     return new RegExp(
-        '^' + 
+        '^' +
         sanitise(rule)
         .replace(/`.*?\.\.\.`/g, '(.*?)')
-        .replace(/`.*?`/g, '([^/]*?)') + 
+        .replace(/`.*?`/g, '([^/]*?)') +
         '$');
 }
 
@@ -47,14 +46,14 @@ function createRouteMatcher(ruleDefinitions){
             }
         }
     };
-};
+}
 
 module.exports = function(route){
     var rules = matchRule(route),
         ruleDefinitions = [];
 
     if(route == null || !rules){
-        throw "Could not parse route: " + route;
+        throw 'Could not parse route: ' + route;
     }
 
     for(var i = 0; i < rules.length; i++){
