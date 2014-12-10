@@ -195,6 +195,32 @@ test('get lots of path', function (t) {
     seaLion.createHandler()(fakeRequest('/foo/thing/bar.png'));
 });
 
+test('get multiple tokens from path', function (t) {
+    t.plan(2);
+
+    var seaLion = new SeaLion({
+        '/`foo`/`thing`': function(request, response, tokens){
+            t.equal(tokens.foo, 'baz', 'Matches baz');
+            t.equal(tokens.thing, 'thing', 'Matches thing');
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/baz/thing'));
+});
+
+test('get multiple types of token from path', function (t) {
+    t.plan(2);
+
+    var seaLion = new SeaLion({
+        '/`foo`/`thing...`': function(request, response, tokens){
+            t.equal(tokens.foo, 'baz', 'Matches baz');
+            t.equal(tokens.thing, 'thing/bar.svg', 'Matches rest of path');
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/baz/thing/bar.svg'));
+});
+
 test('method routing', function (t) {
     t.plan(1);
 
