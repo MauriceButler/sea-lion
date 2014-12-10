@@ -6,11 +6,7 @@ function sanitise(rule){
     return rule.replace(sanitiseRegex, '\\$&');
 }
 
-function createRuleRegex(rule){
-        
-    console.log(sanitise(rule)
-        .replace(/`.*?\.\.\.`/g, '(.*?)'))
-    
+function createRuleRegex(rule){    
     return new RegExp(
         '^' +
         sanitise(rule)
