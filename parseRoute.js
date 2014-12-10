@@ -7,11 +7,15 @@ function sanitise(rule){
 }
 
 function createRuleRegex(rule){
+        
+    console.log(sanitise(rule)
+        .replace(/`.*?\.\.\.`/g, '(.*?)'))
+    
     return new RegExp(
         '^' +
         sanitise(rule)
-        .replace(/`.*?\.\.\.`/g, '(.*?)')
-        .replace(/`.*?`/g, '([^/]*?)') +
+        .replace(/`(?:\\`|[^`])*?\.\.\.`/g, '(.*?)')
+        .replace(/`(?:\\`|[^`])*?`/g, '([^/]*?)') +
         '$');
 }
 
