@@ -6,7 +6,19 @@ function addRoute(seaLion, route, handler){
         throw 'A route handler must be a function or an object with at least one key';
     }
 
-    seaLion._routes[route] = handler;
+    if(typeof handler === 'function'){
+        handler = {
+            any: handler
+        };
+    }
+
+    if(!seaLion._routes[route]){
+        seaLion._routes[route] = {};
+    }
+
+    for(var key in handler){
+        seaLion._routes[route][key] = handler[key];
+    }
 
     if(route in seaLion._rules){
         return;

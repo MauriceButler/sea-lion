@@ -25,7 +25,7 @@ test('new seaLion takes routes', function (t) {
     });
 
     t.deepEqual(Object.keys(seaLion._routes), Object.keys(expectedRoutes), 'got expected routes');
-    t.equal(seaLion._routes['/foo'], expectedRoutes['/foo'], '/foo route is correct');
+    t.deepEqual(seaLion._routes['/foo'], {any: expectedRoutes['/foo']}, '/foo route is correct');
 });
 
 test('can only add valid routes', function (t) {
@@ -57,6 +57,43 @@ test('add routes using seaLion.add', function (t) {
     seaLion.add(testRoutes);
 
     t.deepEqual(Object.keys(seaLion._routes), Object.keys(expectedRoutes),  'routes has correct keys after add');
+});
+
+test('add routes handels multiple calls correctly', function (t) {
+    t.plan(2);
+    var testRoutes = {
+            foo: {
+                GET: 'foo'
+            }
+        },
+        testRoutes2 = {
+            stuff: {
+                GET: 'meh'
+            }
+        },
+        testRoutes3 = {
+            stuff: {
+                POST: 'things'
+            }
+        },
+        expectedRoutes = {
+            foo: {
+                GET: 'foo'
+            },
+            stuff: {
+                GET: 'meh',
+                POST: 'things'
+            }
+        },
+        seaLion = new SeaLion();
+
+    t.deepEqual(Object.keys(seaLion._routes), [],  'routes has no keys to start');
+
+    seaLion.add(testRoutes);
+    seaLion.add(testRoutes2);
+    seaLion.add(testRoutes3);
+
+    t.deepEqual(seaLion._routes, expectedRoutes,  'routes has correct keys after multiple adds and overrides');
 });
 
 test('matched route gets handled', function (t) {
