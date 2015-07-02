@@ -25,11 +25,7 @@ function matchUrl(pathname, ruleDefinition){
     var tokens = {};
 
     for(var i = 0; i < ruleDefinition.keys.length; i++){
-        var token = match[i+1];
-
-        if (token) {
-            tokens[ruleDefinition.keys[i].replace(/\.\.\.$/, '')] = token;
-        }
+        tokens[ruleDefinition.keys[i].replace(/\.\.\.$/, '')] = match[i+1];
     }
 
     return {
