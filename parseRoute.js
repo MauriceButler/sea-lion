@@ -6,7 +6,7 @@ function sanitise(rule){
     return rule.replace(sanitiseRegex, '\\$&');
 }
 
-function createRuleRegex(rule){    
+function createRuleRegex(rule){
     return new RegExp(
         '^' +
         sanitise(rule)
@@ -25,7 +25,11 @@ function matchUrl(pathname, ruleDefinition){
     var tokens = {};
 
     for(var i = 0; i < ruleDefinition.keys.length; i++){
-        tokens[ruleDefinition.keys[i].replace(/\.\.\.$/, '')] = match[i+1];
+        var token = match[i+1];
+
+        if (token) {
+            tokens[ruleDefinition.keys[i].replace(/\.\.\.$/, '')] = token;
+        }
     }
 
     return {
