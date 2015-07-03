@@ -1,6 +1,6 @@
 {
   "name": "sea-lion",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple node http router",
   "main": "index.js",
   "scripts": {
