@@ -6,7 +6,7 @@ function sanitise(rule){
     return rule.replace(sanitiseRegex, '\\$&');
 }
 
-function createRuleRegex(rule){    
+function createRuleRegex(rule){
     return new RegExp(
         '^' +
         sanitise(rule)

@@ -136,6 +136,36 @@ test('matched route gets handled', function (t) {
     seaLion.createHandler()(fakeRequest('/foo/new'));
 });
 
+test('matched route gets tokens wrong order', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/foo/`id`': function(request, response){
+            t.fail();
+        },
+        '/foo/new': function(request, response){
+            t.pass();
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/foo/new'));
+});
+
+test('matched route gets tokens wrong order with tokens', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/foo/`id`/`bar`': function(request, response){
+            t.fail();
+        },
+        '/foo/`id`/potato': function(request, response){
+            t.pass();
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/foo/new/potato'));
+});
+
 test('matched route gets handled', function (t) {
     t.plan(3);
 

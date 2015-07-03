@@ -40,15 +40,19 @@ SeaLion.prototype.add = function(routes){
 };
 SeaLion.prototype.match = function(pathname){
     var ruleKeys = Object.keys(this._rules),
-        match;
+        matches = [];
 
     for(var i = 0; i < ruleKeys.length; i++){
-        match = this._rules[ruleKeys[i]](pathname);
+        var match = this._rules[ruleKeys[i]](pathname);
 
         if(match){
-            return match;
+            matches.push(match);
         }
     }
+
+    return matches.sort(function(a,b) {
+        return Object.keys(b.tokens).length - Object.keys(a.tokens).length;
+    }).pop();
 };
 SeaLion.prototype.createHandler = function(){
     var seaLion = this;
