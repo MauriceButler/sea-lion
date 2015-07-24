@@ -166,6 +166,30 @@ test('matched route gets tokens wrong order with tokens', function (t) {
     seaLion.createHandler()(fakeRequest('/foo/new/potato'));
 });
 
+test('matched route gets correct method when identical routes in wrong order', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/foo/`things`': {
+            PUT: function(request, response){
+                t.fail();
+            }
+        },
+        '/foo/`stuff`': {
+            GET: function(request, response){
+                t.pass();
+            }
+        },
+        '/foo/`pototoes`': {
+            POST: function(request, response){
+                t.fail();
+            }
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/foo/majigger'));
+});
+
 test('matched route gets handled', function (t) {
     t.plan(3);
 
