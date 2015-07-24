@@ -27,6 +27,10 @@ function addRoute(seaLion, route, handler){
     seaLion._rules[route] = parseRoute(route);
 }
 
+function getValidMethod(handler, method){
+    return handler[method.toLowerCase()] || handler[method.toUpperCase()] || handler.any;
+}
+
 function SeaLion(routes){
     this._rules = {};
     this._routes = {};
@@ -38,8 +42,9 @@ SeaLion.prototype.add = function(routes){
         addRoute(this, key, routes[key]);
     }
 };
-SeaLion.prototype.match = function(pathname){
-    var ruleKeys = Object.keys(this._rules),
+SeaLion.prototype.match = function(pathname, method){
+    var seaLion = this,
+        ruleKeys = Object.keys(this._rules),
         matches = [];
 
     for(var i = 0; i < ruleKeys.length; i++){
@@ -50,16 +55,25 @@ SeaLion.prototype.match = function(pathname){
         }
     }
 
-    return matches.sort(function(a,b) {
-        return Object.keys(b.tokens).length - Object.keys(a.tokens).length;
-    }).pop();
+    var sorted = matches.sort(function(a,b) {
+            return Object.keys(b.tokens).length - Object.keys(a.tokens).length;
+        });
+
+    while(sorted.length){
+        var possibleMatch = sorted.pop(),
+            possibleHandler = seaLion._routes[possibleMatch.route];
+
+        if(typeof possibleHandler === 'function' || getValidMethod(possibleHandler, method)){
+            return possibleMatch;
+        }
+    }
+
 };
 SeaLion.prototype.createHandler = function(){
     var seaLion = this;
     return function(request, response){
         var pathname = url.parse(request.url).pathname,
-            match = seaLion.match(pathname),
-            method = request.method.toLowerCase();
+            match = seaLion.match(pathname, request.method);
 
         if(!match){
             return seaLion.notFound(request, response);
@@ -68,7 +82,7 @@ SeaLion.prototype.createHandler = function(){
         var handler = seaLion._routes[match.route];
 
         if(typeof handler !== 'function'){
-            handler = handler[method] || handler[method.toUpperCase()] || handler.any || seaLion.methodNotAllowed;
+            handler = getValidMethod(handler, request.method) || seaLion.methodNotAllowed;
         }
 
         try{
