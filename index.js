@@ -56,11 +56,11 @@ SeaLion.prototype.match = function(pathname, method){
     }
 
     var sorted = matches.sort(function(a,b) {
-            return Object.keys(b.tokens).length - Object.keys(a.tokens).length;
+            return Object.keys(a.tokens).length - Object.keys(b.tokens).length;
         });
 
     while(sorted.length){
-        var possibleMatch = sorted.pop(),
+        var possibleMatch = sorted.shift(),
             possibleHandler = seaLion._routes[possibleMatch.route];
 
         if(typeof possibleHandler === 'function' || getValidMethod(possibleHandler, method)){
