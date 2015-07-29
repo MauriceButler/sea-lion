@@ -190,6 +190,25 @@ test('matched route gets correct method when identical routes in wrong order', f
     seaLion.createHandler()(fakeRequest('/foo/majigger'));
 });
 
+test('matched route same token length precedence order', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/`things...`.foo': {
+            GET: function(request, response){
+                t.pass();
+            }
+        },
+        '/`things...`': {
+            GET: function(request, response){
+                t.fail();
+            }
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/majigger.foo'));
+});
+
 test('matched route gets handled', function (t) {
     t.plan(3);
 
