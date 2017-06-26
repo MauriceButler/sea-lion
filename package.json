@@ -19,6 +19,6 @@
   "homepage": "https://github.com/MauriceButler/sea-lion",
   "dependencies": {},
   "devDependencies": {
-    "tape": "^3.0.3"
+    "tape": "^4.6.3"
   }
 }
