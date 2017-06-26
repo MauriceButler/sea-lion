@@ -15,6 +15,7 @@ You can use it directly or to make it even easier, [dion](https://www.npmjs.com/
 
 ## Usage
 
+``` javascript
     var SeaLion = require('sea-lion');
 
     var router = new SeaLion({ // Create a new router
@@ -34,8 +35,10 @@ You can use it directly or to make it even easier, [dion](https://www.npmjs.com/
 
     // Starts serve with routes defined above:
     require('http').createServer(router.createHandler()).listen(8080);
-
+```
 
 ### Precedence Rules
 
 The order in which rules were added/defined is their order of precedence.
+
+Rules with the least number of tokens will match first.

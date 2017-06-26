@@ -85,11 +85,7 @@ SeaLion.prototype.createHandler = function(){
             handler = getValidMethod(handler, request.method) || seaLion.methodNotAllowed;
         }
 
-        try{
-            handler(request, response, match.tokens);
-        }catch(error){
-            seaLion.error(request, response, error);
-        }
+        handler(request, response, match.tokens);
     };
 };
 SeaLion.prototype.notFound = function(request, response) {
@@ -105,20 +101,6 @@ SeaLion.prototype.methodNotAllowed = function(request, response) {
     response.end(body);
 
     console.log('405: url: ' + request.url + ' verb: ' + request.method);
-};
-SeaLion.prototype.error = function(request, response, error) {
-    if(!error){
-        error = 'Internal Server Error. The server encountered an unexpected condition which prevented it from fulfilling the request.';
-    }
-
-    console.error('Error accessing: ' + request.method + ' ' + request.url, error.stack || error.message || error);
-
-    var body =
-        'An exception was thrown while accessing: ' + request.method + ' ' + request.url + '\n' +
-        'Exception: ' + (error.message || error);
-
-    response.writeHead(500, { 'Content-Length': body.length, 'Content-Type': 'text/plain' });
-    response.end(body);
 };
 
 module.exports = SeaLion;
