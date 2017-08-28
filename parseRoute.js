@@ -1,6 +1,7 @@
 var matchRule = require('./matchRule'),
     getRuleKeys = require('./getRuleKeys'),
-    sanitiseRegex = /[#\-\[\]^$*?+{}|]|\.(?!(?:\.)|`)/g;
+    sanitiseRegex = /[#\-\[\]^$*?+{}|]|\.(?!(?:\.)|`)/g,
+    matchGreedyRule = /\.\.\.`/;
 
 function sanitise(rule){
     return rule.replace(sanitiseRegex, '\\$&');
@@ -29,6 +30,7 @@ function matchUrl(pathname, ruleDefinition){
     }
 
     return {
+        greedy: ruleDefinition.greedy,
         route: ruleDefinition.route,
         rule: ruleDefinition.rule,
         regex: ruleDefinition.regex,
@@ -58,6 +60,7 @@ module.exports = function(route){
 
     for(var i = 0; i < rules.length; i++){
         ruleDefinitions[i] = {
+            greedy: !!route.match(matchGreedyRule),
             route: route,
             rule: rules[i],
             keys: getRuleKeys(rules[i]),
