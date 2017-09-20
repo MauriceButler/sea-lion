@@ -401,5 +401,20 @@ test('query strings with rest token', function (t) {
     seaLion.createHandler()(fakeRequest('/bar?bar=baz'));
 });
 
+test('match order with greedy', function (t) {
+    t.plan(1);
+
+    var seaLion = new SeaLion({
+        '/`foo`/`bar`': function(request, response, tokens){
+            t.pass();
+        },
+        '/`foo...`': function(request, response, tokens){
+            t.fail();
+        }
+    });
+
+    seaLion.createHandler()(fakeRequest('/bar/baz'));
+});
+
 require('./matchRule');
 require('./matchRuleKeys');
