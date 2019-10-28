@@ -56,7 +56,7 @@ SeaLion.prototype.match = function(pathname, method){
     }
 
     var sorted = matches.sort(function(a,b) {
-            if((a.greedy || b.greedy) && !(a.greedy && a.greedy)){
+            if((a.greedy || b.greedy) && !(a.greedy && b.greedy)){
                 return a.greedy ? 1 : -1;
             }
             return Object.keys(a.tokens).length - Object.keys(b.tokens).length;
